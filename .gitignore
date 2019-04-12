@@ -2,3 +2,6 @@
 .idea
 build
 .gradle
+/src/main/resources/cascade/cascade-man2.xml
+/src/main/resources/cascade/cascade_automobile25.xml
+/src/main/resources/app.properties
