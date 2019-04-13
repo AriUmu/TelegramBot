@@ -1,5 +1,7 @@
 package opencv;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -20,16 +22,10 @@ public class WebCamera implements Runnable {
   public void openCam() {
     CvUtils.init();
     JFrame window = setWindow();
-    JLabel label = new JLabel();
-    window.setContentPane(label);
-    window.setVisible(true);
-    VideoCapture camera = new VideoCapture(INDEX);
-    if (!camera.isOpened()) {
-      window.setTitle("Unable to open the camera");
-      isRun = false;
-      isEnd = true;
-      return;
-    }
+    JLabel label = getjLabel(window);
+
+    VideoCapture camera = connectWebCamera(window);
+    if (camera == null) return;
 
     try {
       camera.set(Videoio.CAP_PROP_FRAME_WIDTH, 640);
@@ -56,7 +52,27 @@ public class WebCamera implements Runnable {
       isRun = false;
       isEnd = true;
     }
-    window.setTitle("Cam is closed");
+    window.setTitle("Camera is closed");
+  }
+
+  @Nullable
+  private VideoCapture connectWebCamera(JFrame window) {
+    VideoCapture camera = new VideoCapture(INDEX);
+    if (!camera.isOpened()) {
+      window.setTitle("Unable to open the camera");
+      isRun = false;
+      isEnd = true;
+      return null;
+    }
+    return camera;
+  }
+
+  @NotNull
+  private JLabel getjLabel(JFrame window) {
+    JLabel label = new JLabel();
+    window.setContentPane(label);
+    window.setVisible(true);
+    return label;
   }
 
 
