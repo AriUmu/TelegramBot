@@ -1,5 +1,4 @@
-import bot.StartBot;
-import opencv.WebCamera;
+import bot.InstantBot;
 
 public class Main {
 
@@ -9,7 +8,7 @@ public class Main {
     System.getProperties().put( "socksProxyHost", "127.0.0.1" );
     System.getProperties().put( "socksProxyPort", "9150" );
 
-    new Thread(new StartBot()).start();
+    new Thread(new InstantBot()).start();
    //new Thread(new WebCamera()).start();
   }
 }
