@@ -1,7 +1,10 @@
 package bot;
 
 import org.apache.log4j.Logger;
+import org.telegram.abilitybots.api.bot.AbilityBot;
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -16,9 +19,8 @@ public class StartBot implements Runnable {
   public void run() {
     try {
       ApiContextInitializer.init();
-      Properties property = getProperty();
       TelegramBotsApi botsApi = new TelegramBotsApi();
-      Bot bot = new Bot(property.getProperty("token"), property.getProperty("name"));
+      AbilityBot bot = new Bot(getProperty().getProperty("token"), getProperty().getProperty("name"));
       botsApi.registerBot(bot);
 
     } catch (TelegramApiException e) {

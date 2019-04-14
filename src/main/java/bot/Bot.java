@@ -1,15 +1,21 @@
 package bot;
 
+import org.apache.log4j.Logger;
 import org.telegram.abilitybots.api.bot.AbilityBot;
 import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.InputStream;
+import java.util.Properties;
+
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 public class Bot extends AbilityBot {
+
+  private static final Logger logger = Logger.getLogger(Bot.class);
 
   protected Bot(String botToken, String botUsername, DefaultBotOptions options) {
     super(botToken, botUsername, options);
@@ -58,12 +64,28 @@ public class Bot extends AbilityBot {
 
   @Override
   public String getBotUsername() {
-    return "smart_guard_2019_bot";
+    return getProperty().getProperty("name");
   }
 
   @Override
   public String getBotToken() {
-    return "857493034:AAFaXRDTcFiTe2XR5YtJBk2qAPXVIW72Xm4";
+    return getProperty().getProperty("token");
+  }
+
+
+  private Properties getProperty() {
+    Properties prop = new Properties();
+    String propFileName = "app.properties";
+
+    try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+    ) {
+      if (inputStream != null) {
+        prop.load(inputStream);
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+    }
+    return prop;
   }
 
 }
